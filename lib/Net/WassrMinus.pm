@@ -15,8 +15,8 @@ Readonly my $REALM       => 'API Authentication';
 
 my $post = sub {
     my ($ua, $url, $options) = (@_);
-    my $response = $ua->post($url, $options);
 
+    my $response = $ua->post($url, $options);
     croak 'Bad Request: ', $response->as_string if not $response->is_success;
 
     my $status = decode_json($response->decoded_content);
@@ -27,8 +27,8 @@ my $post = sub {
 
 my $get = sub {
     my ($ua, $url, $options) = (@_);
-    my $response = $ua->post($url, $options);
 
+    my $response = defined $options ? $ua->get($url, $options) : $ua->get($url);
     croak 'Bad Request: ', $response->as_string if not $response->is_success;
 
     return decode_json($response->decoded_content);
@@ -41,7 +41,9 @@ sub new {
     $options->{password} ||= '';
 
     my $ua = LWP::UserAgent->new;
+    $ua->agent('Net::WassrMinus');
     $ua->credentials($NET_LOCATON, $REALM, $options->{user}, $options->{password});
+    $ua->env_proxy();
 
     my $self = {
         ua     => $ua,
@@ -80,13 +82,11 @@ sub friends_timeline {
     );
 }
 
-#FIXME: for some resones, status code 500 returns
 sub public_timeline {
     my ($self) = (@_);
     return $get->( $self->{ua}, $PUBLIC_TIMELINE_API);
 }
 
-#FIXME: for some resones, status code 500 returns
 sub replies {
     my ($self) = (@_);
     return $get->( $self->{ua}, $REPLIES_API);
