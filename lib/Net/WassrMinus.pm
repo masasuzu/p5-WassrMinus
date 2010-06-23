@@ -28,7 +28,7 @@ my $post = sub {
 my $get = sub {
     my ($ua, $url, $options) = (@_);
 
-    my $response = defined $options ? $ua->get($url, $options) : $ua->get($url);
+    my $response = defined $options ? $ua->get($url, %$options) : $ua->get($url);
     croak 'Bad Request: ', $response->as_string if not $response->is_success;
 
     return decode_json($response->decoded_content);
@@ -51,6 +51,11 @@ sub new {
     };
 
     return bless $self, $class;
+}
+
+# TODO: コンフィグファイルから設定を取得する仕組み
+sub new_with_config {
+    die;
 }
 
 sub update {
