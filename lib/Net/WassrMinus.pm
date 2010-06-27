@@ -9,6 +9,7 @@ use LWP::UserAgent;
 use Readonly;
 
 use Net::WassrMinus::API;
+use Net::WassrMinus::Config;
 
 Readonly my $NET_LOCATON => 'api.wassr.jp:80';
 Readonly my $REALM       => 'API Authentication';
@@ -53,9 +54,10 @@ sub new {
     return bless $self, $class;
 }
 
-# TODO: コンフィグファイルから設定を取得する仕組み
 sub new_with_config {
-    die;
+    my ($class, $file_name) = (@_);
+    my $config = Net::WassrMinus::Config->new($file_name);
+    return __PACKAGE__->new($config->to_hash_ref);
 }
 
 sub update {

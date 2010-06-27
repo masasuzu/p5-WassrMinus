@@ -1,0 +1,8 @@
+---
+wassrm:
+  user: USER
+  password: PASSWORD
+
+test:
+  user: wassr
+  password: test
