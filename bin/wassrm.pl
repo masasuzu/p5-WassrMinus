@@ -42,12 +42,12 @@ sub main {
             help();
             next;
         }
-        $command = $command . '_timeline' if $command =~ /^(frieds)|(public)|(user)$/;
+        $command = $command . '_timeline' if $command =~ /^(friends)|(public)|(user)$/;
 
         my $comments = $wassr->$command;
         for my $comment (@{$comments}) {
             print $comment->{user_login_id}, "\n";
-            print encode('utf8', $comment->{text}), "\n";
+            print encode('sjis', $comment->{text}), "\n";
         }
         $command = undef;
     }
@@ -56,13 +56,13 @@ sub main {
 
 sub help {
     #TODO: write help message
-    print "help messagge\n";
+    print "commands ; show update friends public user\n";
 }
 
 sub get_command {
     print 'command? : ';
     chomp (my $command = <STDIN>);
-    return $command;
+    return $command eq '' ? 'help' : $command ;
 }
 
 
