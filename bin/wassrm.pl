@@ -29,12 +29,12 @@ sub main {
         });
     }
     else {
-        $wassr = Net::WassrMinus::new_with_config($file);
+        $wassr = Net::WassrMinus::new_with_config;
     }
 
     # コマンド取得
     while (my $command = get_command()) {
-        if ($command ne '' and $command =~ /^q|(quit)$/){
+        if ($command ne '' and $command =~ /^[eq]|(exit)|(quit)$/){
             exit 1;
         }
         elsif ($command =~ /^(up)|(user)|[fprs]$/) {
@@ -68,6 +68,7 @@ sub complete {
     my ($command) = (@_);
     $$command = 'update'   if ($$command eq 'up');
     $$command = 'user'     if ($$command eq 'user');
+    $$command = 'friends'  if ($$command eq 'f');
     $$command = 'public'   if ($$command eq 'p');
     $$command = 'replies ' if ($$command eq 'r');
     $$command = 'show'     if ($$command eq 's');
@@ -84,6 +85,12 @@ sub print_comment {
 }
 # TODO: Implement update function
 sub update {
-    
+    my ($wassr) = (@_);
+
+    print "\ncomment? > ";
+    chomp (my $comment = <STDIN>);
+    $wassr->update(decode('sjis', $comment));
 }
+
 main if not caller(0);
+
