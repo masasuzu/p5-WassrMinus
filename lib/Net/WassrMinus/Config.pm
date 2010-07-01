@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use utf8;
 
+use Carp;
 use YAML::Tiny;
 use Data::Dumper;
 
@@ -14,7 +15,9 @@ sub new {
 
     my $self     = bless {}, $class;
 
-    $file_name   ||= $ENV{WASSR_MINUS} . '/etc/config.yml';
+    $file_name   ||= defined $ENV{WASSR_MINUS} ?
+                     $ENV{WASSR_MINUS} . '/etc/config.yml':
+                     croak 'Not defined $WASSR_MINUS and not specified config file';
     $environment ||= 'wassrm';
     $self->_load_file($file_name, $environment);
 
@@ -43,7 +46,7 @@ sub password {
 
 sub user {
     $config_of{user} = $_[1] if defined $_[1];
-    $config_of{user};
+    return $config_of{user};
 }
 
 1;
