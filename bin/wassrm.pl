@@ -37,18 +37,17 @@ sub main {
         if ($command ne '' and $command =~ /^q|(quit)$/){
             exit 1;
         }
+        elsif ($command =~ /^(up)|(user)|[fprs]$/) {
+            complete(\$command);
+        }
         elsif (not defined $command or $command =~ /^(help)|(--help)$/ or
             not $command =~ /^(update)|(user)|(friends)|(replies)|(public)|(show)$/ ) {
             help();
             next;
         }
-        $command = $command . '_timeline' if $command =~ /^(friends)|(public)|(user)$/;
 
-        my $comments = $wassr->$command;
-        for my $comment (@{$comments}) {
-            print $comment->{user_login_id}, "\n";
-            print encode('sjis', $comment->{text}), "\n";
-        }
+        $command = $command . '_timeline' if $command =~ /^(friends)|(public)|(user)$/;
+        $command eq 'update' ? update($wassr) : print_comment($wassr, $command);
         $command = undef;
     }
 
@@ -56,14 +55,35 @@ sub main {
 
 sub help {
     #TODO: write help message
-    print "commands ; show update friends public user\n";
+    print "\ncommands : show update friends public user\n\n";
 }
 
 sub get_command {
-    print 'command? : ';
+    print "\ncommand? : ";
     chomp (my $command = <STDIN>);
     return $command eq '' ? 'help' : $command ;
 }
 
+sub complete {
+    my ($command) = (@_);
+    $$command = 'update'   if ($$command eq 'up');
+    $$command = 'user'     if ($$command eq 'user');
+    $$command = 'public'   if ($$command eq 'p');
+    $$command = 'replies ' if ($$command eq 'r');
+    $$command = 'show'     if ($$command eq 's');
+}
 
+sub print_comment {
+    my ($wassr, $command) = (@_);
+
+    my $comments = $wassr->$command;
+    for my $comment (@{$comments}) {
+        print $comment->{user_login_id}, "\n";
+        print encode('sjis', $comment->{text}), "\n";
+    }
+}
+# TODO: Implement update function
+sub update {
+    
+}
 main if not caller(0);
