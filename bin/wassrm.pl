@@ -40,8 +40,7 @@ sub main {
         elsif ($command =~ /^(up)|(user)|[fprs]$/) {
             complete(\$command);
         }
-        elsif (not defined $command or $command =~ /^(help)|(--help)$/ or
-            not $command =~ /^(update)|(user)|(friends)|(replies)|(public)|(show)$/ ) {
+        elsif ($command !~ /^(update)|(user)|(friends)|(replies)|(public)|(show)$/) {
             help();
             next;
         }
@@ -61,7 +60,7 @@ sub help {
 sub get_command {
     print "\ncommand? : ";
     chomp (my $command = <STDIN>);
-    return $command eq '' ? 'help' : $command ;
+    return defined $command ? $command : 'help' ;
 }
 
 sub complete {
@@ -77,6 +76,7 @@ sub complete {
 sub print_comment {
     my ($wassr, $command) = (@_);
 
+    system('clear');
     my $comments = $wassr->$command;
     for my $comment (@{$comments}) {
         print $comment->{user_login_id}, "\n";
