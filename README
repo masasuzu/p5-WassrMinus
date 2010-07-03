@@ -75,7 +75,8 @@ You can use these commands in the commandline tool.
 TODO
 ----------------------------
 
-* Makefile to install as perl module
+* Write Makefile to install as perl module
+* Write unit test
 * Inplement other Wassr APIs
 
 See Also
