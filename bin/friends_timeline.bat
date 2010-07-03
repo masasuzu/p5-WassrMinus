@@ -1,4 +1,4 @@
 @echo off
 set WASSR_MINUS=%CD%/..
-perl -I%WASSR_MINUS%/lib/ ./friends_timeline.pl
+perl -I%WASSR_MINUS%/lib/ ./friends_timeline.pl win
 pause

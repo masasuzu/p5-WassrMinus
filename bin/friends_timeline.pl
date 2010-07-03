@@ -4,13 +4,14 @@ use warnings;
 use utf8;
 
 use Encode;
-use Encode::Guess qw(euc-jp shiftjis utf8);
 use Net::WassrMinus;
 
-my $comments = Net::WassrMinus->new_with_config->friends_timeline($ARGV[0]);
+my $config   = "$ENV{WASSR_MINUS}/etc/config.yml";
+my $wassr    = Net::WassrMinus->new_with_config($config, $ARGV[0]);
+my $comments = $wassr->friends_timeline($ARGV[0]);
 
 for my $comment (@{$comments}) {
     print $comment->{user_login_id}, "\n";
-    print encode('Guess', $comment->{text}), "\n";
+    print encode($wassr->{encode}, $comment->{text}), "\n";
 }
 

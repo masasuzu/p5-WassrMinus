@@ -4,10 +4,11 @@ use warnings;
 use utf8;
 
 use Encode;
-use Encode::Guess qw(euc-jp shiftjis utf8);
 use Net::WassrMinus;
 
-die 'Not defined comment' if not defined $ARGV[0];
+die 'Not defined comment' if not defined $ARGV[1];
 
-Net::WassrMinus->new_with_config->update(decode('Guess', $ARGV[0]));
+my $config   = "$ENV{WASSR_MINUS}/etc/config.yml";
+my $wassr    = Net::WassrMinus->new_with_config($config, $ARGV[0]);
+$wassr->update(decode($wassr->{encode}, $ARGV[1]));
 
