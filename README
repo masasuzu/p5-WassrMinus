@@ -18,7 +18,17 @@ http://wassr.com/
 How to use
 ----------------------------
 
-First of all, you have to configure config file($WassrMinus/etc/config.yml)
+First of all, you have to configure config file(/etc/config.yml)
+
+  ---
+  default:
+    user:     USER      # input your Wassr id
+    password: PASSWORD  # input your Wassr Password
+    encode:   utf8      # modify if you use another encoding
+  win:
+    encode:   sjis 
+
+Second, you have to set environment variable $WASSR_MINUS and add $WASSR_MINUS/lib to $PERL5LIB.
 
 
 See Also
