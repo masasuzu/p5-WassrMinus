@@ -9,12 +9,12 @@ use YAML::Tiny;
 sub new {
     my ($class, $file_name, $environment) = (@_);
 
-    my $self     = bless {}, $class;
+    my $self = bless {}, $class;
 
     $file_name   ||= defined $ENV{WASSR_MINUS} ?
                      $ENV{WASSR_MINUS} . '/etc/config.yml':
                      croak 'Not defined $WASSR_MINUS and not specified config file';
-    $environment ||= 'wassrm';
+    $environment ||= 'default';
     $self->_load_file($file_name, $environment);
 
     return $self;
@@ -31,6 +31,8 @@ sub _load_file {
                     $yaml->[0]->{'default'   }->{password} || '',
         encode   => $yaml->[0]->{$environment}->{encode}   ||
                     $yaml->[0]->{'default'   }->{encode}   || '',
+        source   => $yaml->[0]->{$environment}->{source}   ||
+                    $yaml->[0]->{'default'   }->{source}   || '',
     };
 }
 

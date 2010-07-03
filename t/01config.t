@@ -16,6 +16,7 @@ my $raw_config = $config->get;
 is($raw_config->{user},     'wassr');
 is($raw_config->{password}, 'test');
 is($raw_config->{encode},   'utf8');
+is($raw_config->{source},   'Test::Agent');
 
 $config     = undef;
 $raw_config = undef;
@@ -30,6 +31,7 @@ $raw_config = $config->get;
 is($raw_config->{user},     'USER');
 is($raw_config->{password}, 'PASSWORD');
 is($raw_config->{encode},   'sjis');
+is($raw_config->{source},   '');
 
 done_testing();
 

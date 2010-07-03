@@ -11,3 +11,4 @@ test:
   user:     wassr
   password: test
   encode:   utf8
+  source:   Test::Agent

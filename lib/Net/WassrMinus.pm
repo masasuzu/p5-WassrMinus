@@ -48,15 +48,16 @@ sub new {
 
     my $self = {
         ua     => $ua,
-        source => $options->{source} || __PACKAGE__,
+        source => $options->{source} || $class,
+        encode => $options->{encode} || 'utf8',
     };
 
     return bless $self, $class;
 }
 
 sub new_with_config {
-    my ($class, $file_name) = (@_);
-    my $config = Net::WassrMinus::Config->new($file_name);
+    my ($class, $file_name, $environment) = (@_);
+    my $config = Net::WassrMinus::Config->new($file_name, $environment);
     return __PACKAGE__->new($config->get);
 }
 

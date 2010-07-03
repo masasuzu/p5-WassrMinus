@@ -4,37 +4,37 @@ use warnings;
 use utf8;
 
 use Encode;
+use English;
 use Getopt::Long;
 use Net::WassrMinus;
 
 sub main {
     # オプション取得
-    my ($file, $user, $password);
+    my ($file, $environment, $user, $password);
 
     GetOptions(
-        'file=s'     => \$file,
-        'userd=s'    => \$user,
-        'password=s' => \$password,
+        'file=s'        => \$file,
+        'environment=s' => \$environment,
+        'userd=s'       => \$user,
+        'password=s'    => \$password,
     );
 
     my $wassr;
-    if (defined $file) {
-        die 'config is not exist' if (not -f $file);
-        $wassr = Net::WassrMinus::new_with_config($file);
-    }
-    elsif (defined $user and defined $password) {
+    if (defined $user and defined $password) {
         $wassr = Net::WassrMinus->new({
             user     => $user,
             password => $password,
         });
     }
     else {
-        $wassr = Net::WassrMinus::new_with_config;
+        warn 'Config file does not exist and use default config file'
+            if (not defined $file or not -f $file);
+        $wassr = Net::WassrMinus->new_with_config($file, $environment);
     }
 
     # コマンド取得
     while (my $command = get_command()) {
-        if ($command ne '' and $command =~ /^[eq]|(exit)|(quit)$/){
+        if ($command =~ /^[eq]|(exit)|(quit)$/){
             exit 1;
         }
         elsif ($command =~ /^(up)|(user)|[fprs]$/) {
@@ -42,7 +42,12 @@ sub main {
         }
         elsif ($command !~ /^(update)|(user)|(friends)|(replies)|(public)|(show)$/) {
             help();
+            $command = undef;
             next;
+        }
+        else {
+            # Unexpected
+            die 'unexpected command';
         }
 
         $command = $command . '_timeline' if $command =~ /^(friends)|(public)|(user)$/;
@@ -60,7 +65,7 @@ sub help {
 sub get_command {
     print "\ncommand? : ";
     chomp (my $command = <STDIN>);
-    return defined $command ? $command : 'help' ;
+    return $command ? $command : 'help' ;
 }
 
 sub complete {
@@ -76,11 +81,11 @@ sub complete {
 sub print_comment {
     my ($wassr, $command) = (@_);
 
-    system('clear');
+    $OSNAME eq 'MSWin32'? system('cls') : system('clear');
     my $comments = $wassr->$command;
     for my $comment (@{$comments}) {
         print $comment->{user_login_id}, "\n";
-        print encode('sjis', $comment->{text}), "\n";
+        print encode($wassr->{encode}, $comment->{text}), "\n";
     }
 }
 # TODO: Implement update function
@@ -89,7 +94,7 @@ sub update {
 
     print "\ncomment? > ";
     chomp (my $comment = <STDIN>);
-    $wassr->update(decode('sjis', $comment));
+    $wassr->update(decode($wassr->{encode}, $comment));
 }
 
 main if not caller(0);
