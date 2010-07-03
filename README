@@ -33,6 +33,8 @@ Second, you have to set environment variable $WASSR_MINUS and add $WASSR_MINUS/l
 Core Module
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Core Module is implelmented as Perl module.
+
   use Net::WassrMinus;
   my $wassr = Net::WassrMinus->new{
       user     => $USER_ID,
