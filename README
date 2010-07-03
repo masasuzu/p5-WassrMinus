@@ -1,1 +1,30 @@
+============================
+WassrMinus
+============================
+
+What's this
+----------------------------
+
 WassrMinnus is poor Wassr client.
+It includes core module, and simple script and command line tool to access Wassr.
+
+What's Wassr
+----------------------------
+
+Micro blog service like Twitter. 
+
+http://wassr.com/
+
+How to use
+----------------------------
+
+First of all, you have to configure config file($WassrMinus/etc/config.yml)
+
+
+See Also
+----------------------------
+
+* Wassr
+** http://wassr.com/
+* Wassr API Document
+** http://wassr.com/help/api/
