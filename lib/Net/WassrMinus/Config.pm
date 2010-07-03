@@ -5,13 +5,9 @@ use utf8;
 
 use Carp;
 use YAML::Tiny;
-use Data::Dumper;
-
-my %config_of;
-my $error_mode;
 
 sub new {
-    my ($class, $file_name, $environment, $error_mode) = (@_);
+    my ($class, $file_name, $environment) = (@_);
 
     my $self     = bless {}, $class;
 
@@ -28,25 +24,33 @@ sub _load_file {
     my ($self, $file_name, $environment) = (@_);
     my $yaml = YAML::Tiny->read($file_name);
 
-    %config_of = (
-        user     => $yaml->[0]->{$environment}->{user}     || '',
-        password => $yaml->[0]->{$environment}->{password} || '',
-    );
-}
-
-sub to_hash_ref {
-    my $self = shift;
-    return \%config_of;
+    $self->{config} = {
+        user     => $yaml->[0]->{$environment}->{user}     ||
+                    $yaml->[0]->{'default'   }->{user}     || '',
+        password => $yaml->[0]->{$environment}->{password} ||
+                    $yaml->[0]->{'default'   }->{password} || '',
+        encode   => $yaml->[0]->{$environment}->{encode}   ||
+                    $yaml->[0]->{'default'   }->{encode}   || '',
+    };
 }
 
 sub password {
-    $config_of{password} = $_[1] if defined $_[1];
-    return $config_of{password};
+    $_[0]->{config}->{password} = $_[1] if defined $_[1];
+    return $_[0]->{config}->{password};
 }
 
 sub user {
-    $config_of{user} = $_[1] if defined $_[1];
-    return $config_of{user};
+    $_[0]->{config}->{user} = $_[1] if defined $_[1];
+    return $_[0]->{config}->{user};
+}
+
+sub encode {
+    $_[0]->{config}->{encode} = $_[1] if defined $_[1];
+    return $_[0]->{config}->{encode};
+}
+
+sub get {
+    return $_[0]->{config};
 }
 
 1;

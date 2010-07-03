@@ -1,8 +1,13 @@
 ---
-wassrm:
-  user: USER
+default:
+  user:     USER
   password: PASSWORD
+  encode:   utf8
+
+win:
+  encode:   sjis
 
 test:
-  user: wassr
+  user:     wassr
   password: test
+  encode:   utf8

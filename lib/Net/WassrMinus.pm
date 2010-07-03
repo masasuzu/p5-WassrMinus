@@ -57,7 +57,7 @@ sub new {
 sub new_with_config {
     my ($class, $file_name) = (@_);
     my $config = Net::WassrMinus::Config->new($file_name);
-    return __PACKAGE__->new($config->to_hash_ref);
+    return __PACKAGE__->new($config->get);
 }
 
 sub update {
