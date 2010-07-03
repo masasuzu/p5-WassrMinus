@@ -59,9 +59,9 @@ You may use .bat file if you use windows.
 Commandline tool
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For launch commandline tool.
+For launch commandline tool, you have to input config file or user account.
 
-  perl wassrm.pl
+  perl wassrm.pl [-f CONFIG_FILE [-e ENVIRONMET]] [-u USER_ID -p PASSWORD]
 
 You can use these commands in the commandline tool.
 
