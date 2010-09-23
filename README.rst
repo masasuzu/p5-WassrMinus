@@ -20,6 +20,8 @@ How to use
 
 First of all, you have to configure config file(/etc/config.yml)
 
+::
+
   ---
   default:
     user:     USER      # input your Wassr id
@@ -34,6 +36,8 @@ Core Module
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Core Module is implelmented as Perl module.
+
+::
 
   use Net::WassrMinus;
   my $wassr = Net::WassrMinus->new{
@@ -63,9 +67,13 @@ Commandline tool
 
 For launch commandline tool, you have to input config file or user account.
 
+::
+
   perl wassrm.pl [-f CONFIG_FILE [-e ENVIRONMET]] [-u USER_ID -p PASSWORD]
 
 You can use these commands in the commandline tool.
+
+::
 
   update,up      post comment
   friends,f      display friends timeline
@@ -91,6 +99,6 @@ See Also
 ----------------------------
 
 * Wassr
- - http://wassr.com/
+ * http://wassr.com/
 * Wassr API Document
- - http://wassr.com/help/api/
+ * http://wassr.com/help/api/
