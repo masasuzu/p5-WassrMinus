@@ -99,6 +99,6 @@ See Also
 ----------------------------
 
 * Wassr
-** http://wassr.com/
+ * http://wassr.com/
 * Wassr API Document
-  * http://wassr.com/help/api/
+ * http://wassr.com/help/api/
